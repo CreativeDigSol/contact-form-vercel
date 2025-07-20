@@ -31,8 +31,11 @@ export default async function handler(req, res) {
   });
 
   if (!send.ok) {
-    return res.status(500).json({ error: 'Failed to send message' });
-  }
+  const text = await send.text(); // get the raw text, not assuming JSON
+  console.error('Email API error:', text);
+  return res.status(500).json({ error: 'Failed to send message', details: text });
+}
+
 
   return res.status(200).json({ success: true });
 }
