@@ -21,16 +21,21 @@ export default async function handler(req, res) {
     headers: {
       Authorization: `Bearer ${apiKey}`,
       'Content-Type': 'application/json',
+      'Reply-To': email,
     },
     body: JSON.stringify({
       from: 'contact@updates.creativedigisol.com', // make sure this is a verified sender
       to: 'contact@creativedigisol.com',   // where you want to receive messages
-      subject: `New Contact from ${name}`,
+      subject: `New message from ${name} via contact form`,
       html: `
+        <p>You received a new message from the website:</p>
+        <hr>
         <p><strong>Name:</strong> ${name}</p>
         <p><strong>Email:</strong> ${email}</p>
         <p><strong>Message:</strong></p>
         <p>${message}</p>
+        <hr>
+        <p>Reply directly to this email to respond.</p>
       `
     })
   });
