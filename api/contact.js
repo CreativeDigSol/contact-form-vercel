@@ -24,7 +24,7 @@ export default async function handler(req, res) {
     },
     body: JSON.stringify({
       from: 'contact@updates.creativedigisol.com', // make sure this is a verified sender
-      to: 'contact@updates.creativedigisol.com',   // where you want to receive messages
+      to: 'contact@creativedigisol.com',   // where you want to receive messages
       subject: `New Contact from ${name}`,
       html: `
         <p><strong>Name:</strong> ${name}</p>
