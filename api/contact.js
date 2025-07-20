@@ -11,15 +11,20 @@ export default async function handler(req, res) {
 
   const apiKey = process.env.RESEND_API_KEY;
 
-  const send = await fetch('https://api.resend.com/emails', {
+  if (!apiKey) {
+    console.error('Missing RESEND_API_KEY in environment');
+    return res.status(500).json({ error: 'Server configuration error' });
+  }
+
+  const response = await fetch('https://api.resend.com/emails', {
     method: 'POST',
     headers: {
-      Authorization: `Bearer ${apiK}`,
+      Authorization: `Bearer ${apiKey}`,
       'Content-Type': 'application/json',
     },
     body: JSON.stringify({
-      from: 'contact@updates.creativedigisol.com',
-      to: 'contact@updates.creativedigisol.com',
+      from: 'contact@updates.creativedigisol.com', // make sure this is a verified sender
+      to: 'contact@updates.creativedigisol.com',   // where you want to receive messages
       subject: `New Contact from ${name}`,
       html: `
         <p><strong>Name:</strong> ${name}</p>
@@ -30,12 +35,11 @@ export default async function handler(req, res) {
     })
   });
 
-  if (!send.ok) {
-  const text = await send.text(); // get the raw text, not assuming JSON
-  console.error('Email API error:', text);
-  return res.status(500).json({ error: 'Failed to send message', details: text });
-}
-
+  if (!response.ok) {
+    const errorText = await response.text();
+    console.error('Email send failed:', errorText);
+    return res.status(500).json({ error: 'Failed to send email', details: errorText });
+  }
 
   return res.status(200).json({ success: true });
 }
