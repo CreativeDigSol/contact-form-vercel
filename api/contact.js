@@ -14,12 +14,12 @@ export default async function handler(req, res) {
   const send = await fetch('https://api.resend.com/emails', {
     method: 'POST',
     headers: {
-      Authorization: `Bearer ${apiKey}`,
+      Authorization: `Bearer ${apiK}`,
       'Content-Type': 'application/json',
     },
     body: JSON.stringify({
-      from: 'contact@yourdomain.com',
-      to: 'you@yourdomain.com',
+      from: 'contact@updates.creativedigisol.com',
+      to: 'contact@updates.creativedigisol.com',
       subject: `New Contact from ${name}`,
       html: `
         <p><strong>Name:</strong> ${name}</p>
