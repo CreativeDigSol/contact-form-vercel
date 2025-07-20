@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Contact</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <form id="contact-form">
+    <label>Name: <input type="text" name="name" required /></label>
+    <label>Email: <input type="email" name="email" required /></label>
+    <label>Message: <textarea name="message" required></textarea></label>
+    <button type="submit">Send</button>
+    <p id="status"></p>
+  </form>
+
+  <script>
+    document.getElementById('contact-form').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const form = e.target;
+      const data = {
+        name: form.name.value,
+        email: form.email.value,
+        message: form.message.value
+      };
+
+      const res = await fetch('/api/contact', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(data)
+      });
+
+      const status = document.getElementById('status');
+      if (res.ok) {
+        status.textContent = 'Message sent!';
+        form.reset();
+      } else {
+        const result = await res.json();
+        status.textContent = `Error: ${result.error || 'Try again later'}`;
+      }
+    });
+  </script>
+</body>
+</html>
