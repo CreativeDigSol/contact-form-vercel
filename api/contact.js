@@ -9,6 +9,8 @@ export default async function handler(req, res) {
     return res.status(400).json({ error: 'Missing fields' });
   }
 
+  const apiKey = process.env.RESEND_API_KEY;
+  
   const send = await fetch('https://api.resend.com/emails', {
     method: 'POST',
     headers: {
